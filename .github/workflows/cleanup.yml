@@ -21,6 +21,5 @@ jobs:
 
       - run: node index.js cleanup
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           YAHOO_USER: ${{ secrets.YAHOO_USER }}
           YAHOO_PASS: ${{ secrets.YAHOO_PASS }}
