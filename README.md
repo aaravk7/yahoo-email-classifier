@@ -48,5 +48,5 @@ GEMINI_API_KEY=xxx YAHOO_USER=xxx YAHOO_PASS=xxx node index.js cleanup
 ## Tech Stack
 
 - **IMAP** — email access via `node-imap`
-- **Gemini 2.5 Flash** — AI classification
+- **Gemini 3.1 Flash Lite** — AI classification
 - **GitHub Actions** — scheduled execution
