@@ -1,10 +1,10 @@
 # Yahoo Email Classifier
 
-Automated email classifier for Yahoo Mail using IMAP and Google Gemini AI. Runs on GitHub Actions to classify incoming emails into folders and star actionable ones.
+Automated email classifier for Yahoo Mail using IMAP and Google Gemini AI. Classifies incoming emails into folders and stars actionable ones.
 
 ## How It Works
 
-### Classify (every 5 minutes)
+### Classify
 
 Fetches all **unstarred** emails from the inbox and classifies each into one of:
 
@@ -18,7 +18,7 @@ Fetches all **unstarred** emails from the inbox and classifies each into one of:
 | **Star** | Actionable emails requiring a response — starred and kept in inbox |
 | **Skip** | No category match, not actionable — left in inbox |
 
-### Cleanup (every 6 hours)
+### Cleanup
 
 Permanently deletes emails in the `Temp` folder that are older than 24 hours.
 
@@ -38,6 +38,33 @@ Add these secrets in your repo under **Settings → Secrets and variables → Ac
 
 Yahoo requires an [app password](https://help.yahoo.com/kb/generate-manage-third-party-passwords-sln15241.html) for IMAP access. Generate one in **Yahoo Account Settings → Security → Generate app password**.
 
+## Scheduling
+
+### External scheduler (recommended)
+
+GitHub Actions cron is unreliable — runs can be delayed by minutes or skipped entirely during high load. An external scheduler like [cron-job.org](https://cron-job.org) provides precise timing.
+
+Trigger the workflows via the GitHub API:
+
+```
+POST https://api.github.com/repos/<owner>/<repo>/actions/workflows/classifier.yml/dispatches
+POST https://api.github.com/repos/<owner>/<repo>/actions/workflows/cleanup.yml/dispatches
+
+Headers:
+  Authorization: Bearer <GITHUB_TOKEN>
+  Accept: application/vnd.github+json
+
+Body: {"ref": "main"}
+```
+
+Recommended schedule:
+- **Classify:** every 5 minutes
+- **Cleanup:** every 6 hours
+
+### GitHub Actions cron (alternative)
+
+The workflow files include commented-out cron schedules. Uncomment them if you prefer GitHub Actions' built-in scheduling, keeping in mind it may not run on time.
+
 ## Local Testing
 
 ```bash
@@ -49,4 +76,4 @@ GEMINI_API_KEY=xxx YAHOO_USER=xxx YAHOO_PASS=xxx node index.js cleanup
 
 - **IMAP** — email access via `node-imap`
 - **Gemini 3.1 Flash Lite** — AI classification
-- **GitHub Actions** — scheduled execution
+- **GitHub Actions** — execution environment
