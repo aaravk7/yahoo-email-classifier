@@ -1,0 +1,20 @@
+{
+  "name": "yahoo-email-classifier",
+  "version": "1.0.0",
+  "description": "",
+  "license": "MIT",
+  "author": "Aarav Khokhar",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "imap": "^0.8.19",
+    "mailparser": "^3.6.4",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/imap": "^0.8.43"
+  }
+}
